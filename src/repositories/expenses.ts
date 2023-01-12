@@ -1,3 +1,7 @@
+import api from "../services/api";
+import {useState} from 'react'
+
+
 export default [
   {"description":"Energia elétrica",      "amount":"150.55","type":"saída","frequency":"recorrente","date":"2022-01-10"},
   {"description":"Água",                  "amount":"75.55", "type":"saída","frequency":"recorrente","date":"2022-11-15"},

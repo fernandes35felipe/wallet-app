@@ -9,6 +9,7 @@ import {
 import Layout from "../Components/Layout";
 import Dashboard from '../Pages/Dashboard';
 import List from '../Pages/List';
+import NewUser from '../Pages/NewUser';
 
 const AppRoutes: React.FC = () => (
   <Layout>

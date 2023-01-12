@@ -1,13 +1,14 @@
-import React, {useMemo, useState, useEffect} from 'react'
+import React, {useMemo, useState, useEffect, useCallback} from 'react'
 import { Container, Content, Filters } from './styles'
 import ContentHeader from '../../Components/ContentHeader'
 import SelectInput from '../../Components/SelectInput'
 import HistoryFinanceCard from '../../Components/HistoryFinanceCard'
-import gains from '../../repositories/gains'
-import expenses from '../../repositories/expenses'
+// import gains from '../../repositories/gains'
+// import expenses from '../../repositories/expenses'
 import formatCurrency from '../../Components/utils/formatCurrency'
-import formatDate from '../../Components/utils/formatDate'
 import listOfMonths from '../../Components/utils/months'
+import api from '../../services/api'
+import moment from 'moment'
 
 interface IRouteParams {
     match: {
@@ -29,40 +30,53 @@ interface IData{
 const List: React.FC<IRouteParams> = ({match}) =>{
 
      const [data, setData] = useState<IData[]>([])
-     const [monthSelected, setMonthSelected] = useState<string>(String(new Date().getMonth()+1))
-     const [yearSelected, setYearSelected] = useState<string>(String(new Date().getFullYear()))
-     const [selectedFrequency, setSelectedFrequency] = useState(['recorrente', 'eventual'])
-    
+     const [monthSelected, setMonthSelected] = useState(new Date().getMonth()+1)
+     const [yearSelected, setYearSelected] = useState<number>(+moment().format('YYYY'))
+     const [selectedFrequency, setSelectedFrequency] = useState(['recurrent', 'eventual'])
+     const [expenses, setExpenses] = useState<any>([])
+     const [gains, setGains] = useState<any>([])
+
     const {type} = match.params
     
     const listData = useMemo(() =>{
         return type === 'entry-balance' ? gains : expenses
-    }, [type])
+    }, [type, gains, expenses])
+
+  useEffect(() => {
+    getAllData()
+  },[])
+
+    const getAllData = async () => {
+        let expensesList = await api.get('/expenses/user/'+localStorage.getItem('@minha-carteira:userId'))
+        let entriesList = await api.get('/entries/user/'+localStorage.getItem('@minha-carteira:userId'))
+        setGains(entriesList.data)
+        setExpenses(expensesList.data)
+  }
 
     const title = useMemo(() =>{
         return type === 'entry-balance' ? {title: 'Entradas', lineColor: '#04ff00'} : {title: 'Saídas', lineColor: '#E44C4E'}
     }, [type])
 
     useEffect(() =>{
-        const filteredData = listData.filter(item=>{
-            const date = new Date(item.date)
-            const month = String(date.getMonth()+1)
-            const year = String(date.getFullYear())
-            return month === monthSelected && year === yearSelected && selectedFrequency.includes(item.frequency);
+        const filteredData = listData.filter((item: any)=>{
+            const year = +moment(item.date).format('YYYY');
+            const month = +moment(item.date).format('MM');
+
+            return (month === monthSelected && year === yearSelected && selectedFrequency.includes(item.recurrent));
         })
-            
-        const formattedData = filteredData.map(item =>{
+
+        const formattedData = filteredData.map((item: any) =>{
             return {
                 id: String(Math.random()*data.length),
                 description: item.description,
-                amountFormatted: formatCurrency(Number(item.amount)),
+                amountFormatted: formatCurrency(Number(item.value)),
                 frequency: item.frequency,
-                dateFormatted: formatDate(item.date),
-                tagColor: item.frequency === 'eventual' ? '#4E41F0' : '#00ccff',
+                dateFormatted: moment(item.date).format('DD/MM/YYYY'),
+                tagColor: item.recurrent === 'eventual' ? '#4E41F0' : '#00ccff',
             }   
         })
         setData(formattedData)
-    }, [monthSelected, yearSelected, data.length, selectedFrequency])
+    }, [monthSelected, yearSelected, data.length, selectedFrequency, listData])
 
     const months = useMemo(() => {
         return listOfMonths.map((month, index) => {
@@ -74,11 +88,13 @@ const List: React.FC<IRouteParams> = ({match}) =>{
     },[])
 
     const years = useMemo(() => {
-        let uniqueYears:number[] = []
+        let uniqueYears:number[] = [];
+        let thisYear = Number(moment().format('YYYY'));
+        uniqueYears.push(thisYear);
 
-        listData.forEach(item =>{
-            const date = new Date(item.date)
-            const year = date.getFullYear()
+        [...gains, ...expenses].forEach(item =>{
+            const date = moment(item.date).format('DD-MM-YYYY');
+            const year = +date.substring(6)
 
             if(!uniqueYears.includes(year)){
                 uniqueYears.push(year)
@@ -87,9 +103,8 @@ const List: React.FC<IRouteParams> = ({match}) =>{
 
         return uniqueYears.map(year => {
             return {value: year, label: year}
-
         })
-    },[])
+    },[expenses, gains])
 
     const handleFrequecy = (frequency: string) =>{
         const index = selectedFrequency.indexOf(frequency)
@@ -99,20 +114,21 @@ const List: React.FC<IRouteParams> = ({match}) =>{
         else{
             setSelectedFrequency(prev => [...prev, frequency])
         }
+        console.log(selectedFrequency)
     }
 
     return (
         <Container>
             <ContentHeader title={title.title} lineColor={title.lineColor}>
-                <SelectInput options={months} onChange={(e) => setMonthSelected(e.target.value)} defaultValue={monthSelected}/>
-                <SelectInput options={years} onChange={(e) => setYearSelected(e.target.value)} defaultValue={yearSelected}/>    
+                <SelectInput options={months} onChange={(e) => setMonthSelected(Number(e.target.value))} defaultValue={monthSelected}/>
+                <SelectInput options={years} onChange={(e) => setYearSelected(Number(e.target.value))} defaultValue={yearSelected}/>    
             </ ContentHeader>
 
             <Filters>
                 <button 
                 type='button'
                 className='tag-filter tag-filter-recurrent'
-                onClick={() => handleFrequecy('recorrente')}
+                onClick={() => handleFrequecy('recurrent')}
                 >
                     Recorrentes
                 </button>

@@ -16,7 +16,6 @@ const Content: React.FC = () =>{
                 <Title>Minha carteira</Title>
             </Header>
             <MenuContainer>
-            
                 <MenuItemLink href='/dashboard'> <MdDashboard /> Dashboard </MenuItemLink>
                 <MenuItemLink href='/list/entry-balance'> <MdArrowUpward />Entradas </MenuItemLink>
                 <MenuItemLink href='/list/exit-balance'> <MdArrowDownward />Saídas</MenuItemLink>

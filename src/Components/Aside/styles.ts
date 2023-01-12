@@ -34,7 +34,7 @@ export const MenuItemLink = styled.a`
 color: ${props => props.theme.colors.info};
 text-decoration: none;
 transition: opacity .3s;
-margin: 7px 0;
+margin: 9px 0;
 display: flex;
 align-items: center;
 
@@ -43,7 +43,7 @@ align-items: center;
 }
 
 > svg{
-    font-size: 18px;
+    font-size: 24px;
     margin-right: 5px;
 }
 `;

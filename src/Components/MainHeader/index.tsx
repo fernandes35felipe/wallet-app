@@ -7,7 +7,7 @@ import emojis from '../utils/emojis'
 
 const MainHeader: React.FC = () =>{
     const {toggleTheme, theme} = useTheme()
-
+    
     const [darkTheme, setDarkTheme] = useState(()=>theme.title === 'dark' ? true : false)
     
     const emoji = useMemo(() =>{
@@ -31,7 +31,7 @@ const MainHeader: React.FC = () =>{
                 />
                 <Profile>
                     <Welcome>{emoji} Olá,  </Welcome>
-                    <UserName>Felipe</UserName>
+                    <UserName>{localStorage.getItem('@minha-carteira:name')}</UserName>
                 </Profile>
             </Container>
         </>

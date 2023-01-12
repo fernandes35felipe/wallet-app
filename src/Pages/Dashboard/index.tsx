@@ -5,11 +5,13 @@ import WalletBox from '../../Components/WalletBox'
 import SelectInput from '../../Components/SelectInput'
 import MessageBox from '../../Components/MessageBox'
 import PieChart from '../../Components/PieChart'
-import gains from '../../repositories/gains'
-import expenses from '../../repositories/expenses'
+// import gains from '../../repositories/gains'
+// import expenses from '../../repositories/expenses'
 import listOfMonths from '../../Components/utils/months'
 import happyImg from '../../assets/happy.svg'
 import sadImg from '../../assets/sad.svg'
+import api from '../../services/api'
+import moment from 'moment'
 
 interface IRouteParams {
     match: {
@@ -24,6 +26,24 @@ const Dashboard: React.FC<IRouteParams> = ({match}) =>{
     
     const [monthSelected, setMonthSelected] = useState(new Date().getMonth()+1)
     const [yearSelected, setYearSelected] = useState<any>(new Date().getFullYear())
+    const [expenses, setExpenses] = useState<any>([])
+    const [gains, setGains] = useState<any>([])
+
+    const getExpenses = async () => {
+        let expensesList = await api.get('/expenses/user/'+localStorage.getItem('@minha-carteira:userId'))
+        setExpenses(expensesList.data)
+  }
+
+  const getEntries = async () => {
+    let entriesList = await api.get('/entries/user/'+localStorage.getItem('@minha-carteira:userId'))
+    setGains(entriesList.data)
+}
+
+
+    useEffect(() => {
+        getExpenses()
+        getEntries()
+      }, []);
 
     const months = useMemo(() => {
         return listOfMonths.map((month, index) => {
@@ -36,34 +56,35 @@ const Dashboard: React.FC<IRouteParams> = ({match}) =>{
 
     const years = useMemo(() => {
         let uniqueYears:number[] = [];
+        let thisYear = Number(moment().format('YYYY'));
+        uniqueYears.push(thisYear);
 
         [...gains, ...expenses].forEach(item =>{
-            const date = new Date(item.date)
-            const year = date.getFullYear()
+            const date = moment(item.date).format('DD-MM-YYYY');
+            const year = +date.substring(6)
 
             if(!uniqueYears.includes(year)){
                 uniqueYears.push(year)
             }
         })
 
+
         return uniqueYears.map(year => {
             return {value: year, label: year}
-
         })
-    },[])
+    },[expenses, gains])
 
 
     const totalExpenses = useMemo(() => {
         let total: number = 0;
 
-        expenses.forEach(item =>{ 
-            const date = new Date(item.date);
-            const year = date.getFullYear();
-            const month = date.getMonth()+1;
-
+        expenses.forEach((item: any) =>{ 
+            const date = moment(item.date).format('DD-MM-YYYY');
+            const year = +date.substring(6)
+            const month = +date.substring(3, 5)
             if(month === monthSelected && year === yearSelected){
                 try{
-                    total += Number(item.amount)
+                    total += Number(item.value)
                 }catch{  
                     throw new Error('Invalid amount')
                 }   
@@ -76,20 +97,20 @@ const Dashboard: React.FC<IRouteParams> = ({match}) =>{
     const totalGains = useMemo(() => {
         let total: number = 0;
 
-        gains.forEach(item =>{ 
-            const date = new Date(item.date);
-            const year = date.getFullYear();
-            const month = date.getMonth()+1;
+        gains.forEach((item: any) =>{ 
+            const date = moment(item.date).format('DD-MM-YYYY');
+            const year = +date.substring(6)
+            const month = +date.substring(3, 5)
 
             if(month === monthSelected && year === yearSelected){
                 try{
-                    total += Number(item.amount)
+                    total += Number(item.value)
                 }catch{  
                     throw new Error('Invalid amount')
                 }   
             }
         })
-
+       
         return total
     }, [monthSelected, yearSelected])
 

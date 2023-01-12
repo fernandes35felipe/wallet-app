@@ -39,8 +39,8 @@ margin-bottom: 7px;
 
 >div{
     background-color: ${props => props.color};
-    width: 40px;
-    height: 40px;
+    width: 55px;
+    height: 45px;
     border-radius: 5px;
     font-size: 18px;
     line-height: 40px;

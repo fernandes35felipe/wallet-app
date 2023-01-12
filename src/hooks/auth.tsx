@@ -1,4 +1,5 @@
 import React, {createContext, useState, useContext} from "react";
+import api from "../services/api";
 
 interface IAuthContext{
     logged: boolean;
@@ -15,22 +16,26 @@ const AuthProvider: React.FC<any> = ({children})=>{
         return !!isLogged
     })
 
-    const signIn = (email: string, password: string) => {
-        if (email==='felipe@email.com' && password ==='123') {
+    const signIn = async (email: string, password: string) => {
+        let res = await api.post('/users/login', {username: email, password: password}).then((e)=>{
             localStorage.setItem('@minha-carteira:logged', 'true')
-            setLogged(true)
-            console.log('1teste')
-        }
-        else{
-            alert('senha ou usuário inválidos')
-            console.log('aaa')
-        }
+            localStorage.setItem('@minha-carteira:token', e.data.access_token)
+            localStorage.setItem('@minha-carteira:userId', e.data.user.id)
+            localStorage.setItem('@minha-carteira:userEmail', e.data.user.email)
+            localStorage.setItem('@minha-carteira:name', e.data.user.name)
+        })
     }
 
     const signOut = () =>{
         localStorage.removeItem('@minha-carteira:logged')
+        localStorage.removeItem('@minha-carteira:token')
+        localStorage.removeItem('@minha-carteira:userId')
+        localStorage.removeItem('@minha-carteira:userEmail')
+        localStorage.removeItem('@minha-carteira:name')
         setLogged(false)
     }
+
+
 
     return (
         <AuthContext.Provider value={{logged, signIn, signOut}}>
@@ -45,4 +50,6 @@ function useAuth(): IAuthContext{
     return context
 } 
 
-export {AuthProvider, useAuth}
+
+
+export {AuthProvider, useAuth }

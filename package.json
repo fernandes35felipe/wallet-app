@@ -11,6 +11,8 @@
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@types/recharts": "^1.8.24",
+    "axios": "^1.2.2",
+    "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-countup": "^6.4.0",
     "react-dom": "^18.2.0",
