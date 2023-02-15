@@ -1,14 +1,14 @@
-import React, {useMemo, useState, useEffect, useCallback} from 'react'
-import { Container, Content, Filters } from './styles'
+import React, {useMemo, useState, useEffect} from 'react'
+import { Container, Content, Filters,ButtonContainer, AddButton } from './styles'
 import ContentHeader from '../../Components/ContentHeader'
 import SelectInput from '../../Components/SelectInput'
 import HistoryFinanceCard from '../../Components/HistoryFinanceCard'
-// import gains from '../../repositories/gains'
-// import expenses from '../../repositories/expenses'
 import formatCurrency from '../../Components/utils/formatCurrency'
 import listOfMonths from '../../Components/utils/months'
 import api from '../../services/api'
 import moment from 'moment'
+import FormDialog from '../../Components/Dialog'
+
 
 interface IRouteParams {
     match: {
@@ -25,6 +25,7 @@ interface IData{
     frequency: string;
     dateFormatted: string;
     tagColor: string;
+    name: string;
 }
 
 const List: React.FC<IRouteParams> = ({match}) =>{
@@ -35,6 +36,7 @@ const List: React.FC<IRouteParams> = ({match}) =>{
      const [selectedFrequency, setSelectedFrequency] = useState(['recurrent', 'eventual'])
      const [expenses, setExpenses] = useState<any>([])
      const [gains, setGains] = useState<any>([])
+     const [open, setOpen] = React.useState(false);
 
     const {type} = match.params
     
@@ -44,10 +46,11 @@ const List: React.FC<IRouteParams> = ({match}) =>{
 
   useEffect(() => {
     getAllData()
-  },[])
+    console.log('teste')
+  },[open])
 
     const getAllData = async () => {
-        let expensesList = await api.get('/expenses/user/'+localStorage.getItem('@minha-carteira:userId'))
+        let expensesList = await api.get('/expenses/user/'+Number(localStorage.getItem('@minha-carteira:userId')))
         let entriesList = await api.get('/entries/user/'+localStorage.getItem('@minha-carteira:userId'))
         setGains(entriesList.data)
         setExpenses(expensesList.data)
@@ -67,12 +70,13 @@ const List: React.FC<IRouteParams> = ({match}) =>{
 
         const formattedData = filteredData.map((item: any) =>{
             return {
-                id: String(Math.random()*data.length),
+                id: item.id,
                 description: item.description,
                 amountFormatted: formatCurrency(Number(item.value)),
                 frequency: item.frequency,
                 dateFormatted: moment(item.date).format('DD/MM/YYYY'),
                 tagColor: item.recurrent === 'eventual' ? '#4E41F0' : '#00ccff',
+                name: item.name
             }   
         })
         setData(formattedData)
@@ -114,8 +118,19 @@ const List: React.FC<IRouteParams> = ({match}) =>{
         else{
             setSelectedFrequency(prev => [...prev, frequency])
         }
-        console.log(selectedFrequency)
     }
+
+    
+
+    const handleClickOpen = () => {
+      setOpen(true);
+      return open
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
+      return open
+    };
 
     return (
         <Container>
@@ -142,12 +157,21 @@ const List: React.FC<IRouteParams> = ({match}) =>{
             </Filters>
 
             <Content>
+            <ButtonContainer>
+                <AddButton onClick={handleClickOpen}>{'+'}</AddButton >
+            </ButtonContainer>
                 {data.map(item => {
-                    return <HistoryFinanceCard  tagColor={item.tagColor} title={item.description} subtitle={item.dateFormatted} amount={item.amountFormatted} />
+                    return (<>
+                        <HistoryFinanceCard  tagColor={item.tagColor} title={item.name} subtitle={item.dateFormatted} amount={item.amountFormatted} type={type} id={Number(item.id)}/>
+                    </>
+                    )
                 })}
             </Content>
+            {open && <FormDialog openModal={open} setOpenModal={setOpen} type={type} isEdit={false}/>}
         </Container>
+        
     )
 }
+
 
 export default List

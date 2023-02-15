@@ -35,6 +35,7 @@ padding-left: 10px;
 >div span{
 font-size: 22px;
 font-weight: 500;
+width: 300px;
 }
 `
 
@@ -46,3 +47,18 @@ background-color: ${props => props.color};
 left: 0;
 border-radius: 2px;
 `
+
+export const EditButton = styled.button`
+    height: 100%;
+    padding: 5px;
+    font-weight: bold;
+    font-size: 20px;
+    color: ${props => props.theme.colors.white};
+    background-color: ${props => props.theme.colors.terciary};
+
+    transition: opacity .3s;
+
+    &:hover{
+        opacity: .9;
+    }
+`;

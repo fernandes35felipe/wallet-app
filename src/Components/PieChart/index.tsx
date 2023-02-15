@@ -18,7 +18,7 @@ const PieChart: React.FC<IPieChartProps> = ({data}) =>{
                 <h2>Relação</h2>
                 <LabelContainer>
                     {data.map((item) => <Label key={item.name} color={item.color}>
-                        <div>{item.percent+'%' }</div>
+                        <div>{item.percent > 0 ? item.percent+'%':'0%' }</div>
                         <span>{item.name}</span>
                     </Label>)}   
                 </LabelContainer>

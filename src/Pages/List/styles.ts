@@ -8,12 +8,35 @@ export const Content = styled.div`
 
 `;
 
+export const ButtonContainer = styled.div`
+width: 80px;
+height: 80px;
+margin-left: 93%;
+margin-bottom: 5px;
+`;
+
+export const AddButton = styled.button`
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 20px;
+    color: ${props => props.theme.colors.white};
+    background-color: ${props => props.theme.colors.terciary};
+
+    transition: opacity .3s;
+
+    &:hover{
+        opacity: .7;
+    }
+`;
+
 export const Filters = styled.div`
 width: 100%;
 display: flex;
 justify-content: center;
 margin-bottom: 30px;
-
 
 
 .tag-filter{

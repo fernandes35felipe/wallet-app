@@ -19,5 +19,4 @@ declare module 'styled-components' {
             }
         
         }
-    
 }

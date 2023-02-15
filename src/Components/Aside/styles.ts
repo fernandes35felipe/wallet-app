@@ -31,7 +31,7 @@ flex-direction: column;
 `;
 
 export const MenuItemLink = styled.a`
-color: ${props => props.theme.colors.info};
+color: ${props => props.theme.colors.white};
 text-decoration: none;
 transition: opacity .3s;
 margin: 9px 0;
@@ -50,7 +50,7 @@ align-items: center;
 
 export const MenuItemButton = styled.button`
 font-size: 16px;
-color: ${props => props.theme.colors.info};
+color: ${props => props.theme.colors.white};
 border: none;
 text-decoration: none;
 background: none;

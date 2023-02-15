@@ -92,7 +92,7 @@ const Dashboard: React.FC<IRouteParams> = ({match}) =>{
         })
 
         return total
-    }, [monthSelected, yearSelected])
+    }, [monthSelected, yearSelected, expenses])
 
     const totalGains = useMemo(() => {
         let total: number = 0;
@@ -112,7 +112,7 @@ const Dashboard: React.FC<IRouteParams> = ({match}) =>{
         })
        
         return total
-    }, [monthSelected, yearSelected])
+    }, [monthSelected, yearSelected, gains])
 
     const expensesVersusGains = useMemo(()=>{
     

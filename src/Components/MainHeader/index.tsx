@@ -30,8 +30,8 @@ const MainHeader: React.FC = () =>{
                     onChange={handleChangeTheme}
                 />
                 <Profile>
-                    <Welcome>{emoji} Olá,  </Welcome>
-                    <UserName>{localStorage.getItem('@minha-carteira:name')}</UserName>
+                    <Welcome>{emoji} Olá, {localStorage.getItem('@minha-carteira:name')} </Welcome>
+                    <UserName></UserName>
                 </Profile>
             </Container>
         </>
