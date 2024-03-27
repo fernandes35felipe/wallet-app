@@ -1,5 +1,6 @@
 import React, {createContext, useState, useContext} from "react";
 import api from "../services/api";
+import SignIn from "../Pages/SignIn";
 
 interface IAuthContext{
     logged: boolean;
@@ -23,6 +24,7 @@ const AuthProvider: React.FC<any> = ({children})=>{
             localStorage.setItem('@minha-carteira:userId', e.data.user.id)
             localStorage.setItem('@minha-carteira:userEmail', e.data.user.email)
             localStorage.setItem('@minha-carteira:name', e.data.user.name)
+            window.location.reload()
         })
     }
 

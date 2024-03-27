@@ -18,13 +18,13 @@ const SignIn: React.FC = () =>{
                 <h2>Minha Carteira</h2>
             </Logo>
 
-            <Form onSubmit={(e)=> {signIn(email, password)}}>
+            <Form>
                 <FormTitle>
                     Entrar
                 </FormTitle>
                 <Input required type='email' placeholder='Email' onChange={(e) => setEmail(e.target.value)}/>
                 <Input required type='password' placeholder='Senha' onChange={(e) => setPassword(e.target.value)}/>
-                <Button type="submit">Acessar</Button>
+                <Button type={'submit'} onClick={(e)=> {signIn(email, password)}}>Acessar</Button>
                 <a href={"/newUser"}>Novo usuário? clique aqui</a>
             </Form>
         </Container>

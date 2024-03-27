@@ -46,12 +46,13 @@ const List: React.FC<IRouteParams> = ({match}) =>{
 
   useEffect(() => {
     getAllData()
-    console.log('teste')
+
   },[open])
 
     const getAllData = async () => {
         let expensesList = await api.get('/expenses/user/'+Number(localStorage.getItem('@minha-carteira:userId')))
         let entriesList = await api.get('/entries/user/'+localStorage.getItem('@minha-carteira:userId'))
+        console.log(entriesList.data)
         setGains(entriesList.data)
         setExpenses(expensesList.data)
   }

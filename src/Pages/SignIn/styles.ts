@@ -29,7 +29,7 @@ export const Logo = styled.div`
     }
 `
 
-export const Form = styled.form`
+export const Form = styled.div`
     width: 300px;
     height: 300px;
     padding: 30px;
