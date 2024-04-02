@@ -144,7 +144,7 @@ const Dashboard: React.FC<IRouteParams> = ({match}) =>{
         <Container>
             <ContentHeader title='Dashboard' lineColor='#F7931B'>
             <SelectInput options={months} onChange={(e) => setMonthSelected(Number(e.target.value))} defaultValue={monthSelected}/>
-                <SelectInput options={years} onChange={(e) => setYearSelected(Number(e.target.value))} defaultValue={yearSelected}/>    
+            <SelectInput options={years} onChange={(e) => setYearSelected(Number(e.target.value))} defaultValue={yearSelected}/>    
             </ ContentHeader>
             <Content>
                 <WalletBox title="Saldo" amount={saldo}   footerLabel='Atualizado com base nas entradas e saídas' icon="dollar" color="#4e41f0"/>
