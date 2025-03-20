@@ -27,3 +27,7 @@ utilizando o NPM, faça a instalação dos recursos necessários com o comando N
 ## ☕ Usando Wallet App 
 
 Para executar o projeto, após a instalação dos recursos do passo anterior, execute o comando NPM START. Recomenda-se a execução da API primeiro para que a utilização de portas seja feita corretamente.
+
+Na primeira execução, acesse o link "Novo usuário?" para criar seu usuário. Após a criação, volte à tela de login e acesse o sistema
+
+Após o primeiro login, nas telas de despesas e entradas será possível cadastrar itens. Após o cadastro do primeiro item, uma dashboard será apresentada com o balanço na tela inicial, assim como uma lista de entradas e despesas em seus respectivos meses.
