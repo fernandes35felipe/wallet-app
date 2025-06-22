@@ -1,6 +1,6 @@
 import moment from 'moment'
 
-export const TOKEN_KEY = '@wallet-token';
+export const TOKEN_KEY = '@minha-carteira:token';
 export const tokenExpires = '@wallet-token-expires'
 
 export const isAuthenticated = () => localStorage.getItem(TOKEN_KEY) !== null;

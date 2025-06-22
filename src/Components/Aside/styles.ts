@@ -21,7 +21,7 @@ width: 40px;
 
 export const Title = styled.h3`
 color: ${props => props.theme.colors.white};
-margin-left: 10px
+margin-left: 10px;
 `;
 
 export const MenuContainer = styled.nav`
