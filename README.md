@@ -6,8 +6,8 @@ Este é um projeto de aplicação para gerenciamento de carteira, com controle d
 
 O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas para as seguintes tarefas:
 
-- [ ] Criação de grupos de despesas e entradas (em andamento)
-- [ ] Após início da criação do esquema de grupos, foi identificado um erro na listagem de entradas e despesas. Ao fim da criação das funções de grupos, a listagem voltará a funcionar.
+- [ x] Criação de grupos de despesas e entradas (em andamento)
+- [ x] Após início da criação do esquema de grupos, foi identificado um erro na listagem de entradas e despesas. Ao fim da criação das funções de grupos, a listagem voltará a funcionar.
 - [ ] Melhorar os campos e detalhamento das despesas e entradas.
 - [ ] Tratamento de erros, com resposta explicativa para cada tipo de erro ocorrido
 - [ ] 
