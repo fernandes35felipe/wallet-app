@@ -1,4 +1,3 @@
-import { prop } from "cheerio/lib/api/attributes";
 import styled from "styled-components";
 
 export const Container = styled.div`
