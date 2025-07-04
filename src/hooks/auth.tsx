@@ -18,7 +18,7 @@ const AuthProvider: React.FC<any> = ({ children }) => {
   });
 
   const signIn = async (email: string, password: string) => {
-    let res = await api
+    const res = await api
       .post("/users/login", { username: email, password: password })
       .then((e) => {
         localStorage.setItem("@minha-carteira:logged", "true");

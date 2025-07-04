@@ -163,8 +163,8 @@ const List: React.FC<IRouteParams> = ({ match }) => {
   }, []);
 
   const years = useMemo(() => {
-    let uniqueYears: number[] = [];
-    let thisYear = Number(moment().format("YYYY"));
+    const uniqueYears: number[] = [];
+    const thisYear = Number(moment().format("YYYY"));
     uniqueYears.push(thisYear);
 
     [...gains, ...expenses].forEach((item) => {

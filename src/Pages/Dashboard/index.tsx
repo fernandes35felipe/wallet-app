@@ -95,8 +95,8 @@ const Dashboard: React.FC<IRouteParams> = ({ match }) => {
   }, []);
 
   const years = useMemo(() => {
-    let uniqueYears: number[] = [];
-    let thisYear = Number(moment().format("YYYY"));
+    const uniqueYears: number[] = [];
+    const thisYear = Number(moment().format("YYYY"));
     uniqueYears.push(thisYear);
 
     [...gains, ...expenses].forEach((item) => {
@@ -114,7 +114,7 @@ const Dashboard: React.FC<IRouteParams> = ({ match }) => {
   }, [expenses, gains]);
 
   const totalExpenses = useMemo(() => {
-    let total: number = 0;
+    let total = 0;
     expenses.forEach((item: any) => {
       try {
         total += Number(item.value);
@@ -126,7 +126,7 @@ const Dashboard: React.FC<IRouteParams> = ({ match }) => {
   }, [expenses]);
 
   const totalGains = useMemo(() => {
-    let total: number = 0;
+    let total = 0;
     gains.forEach((item: any) => {
       try {
         total += Number(item.value);
@@ -160,7 +160,7 @@ const Dashboard: React.FC<IRouteParams> = ({ match }) => {
     return data;
   }, [totalGains, totalExpenses]);
 
-  let saldo = totalGains - totalExpenses;
+  const saldo = totalGains - totalExpenses;
 
   return (
     <Container>

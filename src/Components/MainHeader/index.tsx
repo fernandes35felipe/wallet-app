@@ -32,7 +32,7 @@ const MainHeader: React.FC = () => {
     const userId = localStorage.getItem("@minha-carteira:userId");
     if (userId) {
       try {
-        let groupsList = await api.get("/groups/user/" + userId);
+        const groupsList = await api.get("/groups/user/" + userId);
         console.log(groupsList.data);
         const options = groupsList.data.map((group: any) => ({
           label: group.name,
